@@ -6,7 +6,7 @@ pipeline {
 
     }
     stages {
-        stage('Source Code Checkout'){
+        stage('Declarative Checkout SCM'){
             steps{
                 echo "Hello welcome to my pipeline"
             }
@@ -22,12 +22,17 @@ pipeline {
                 sh 'mvn test '
             }
         }
-        stage('Trivy dependency scan'){
+        stage('Checkstyle Analysis '){
+            steps{
+                sh 'mvn checkstyle:checkstyle '
+            }
+        }
+        stage('Trivy Dependency Scan'){
             steps{
                 sh 'trivy fs --format table -o trivy-fs-report.html .'
             }     
         }
-        stage('Sonarqube code Analysis')
+        stage('Sonarqube Code Analysis')
             steps{
                 sh 'mvn sonar:sonar'
             }
