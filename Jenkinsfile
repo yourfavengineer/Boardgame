@@ -15,30 +15,30 @@ pipeline {
         }
         stage ('Application Build'){
             steps{
-                sh 'mvn package'
+                sh 'mvn compile'
             }
 
         }
         stage ('Code Compilation'){
             steps{
-                sh 'mnv compile'
+                sh 'mnv test'
             }
         }
         stage('Testing '){
             steps{
-                sh 'mvn test '
+                sh 'mvn checkstyle:checkstyle '
             }
         }
         stage('Checkstyle Analysis '){
             steps{
-                sh 'mvn checkstyle:checkstyle '
+                sh 'mvn package '
             }
         }
+
         stage('Nexus Artifactory Upload'){
             steps {
                 withMaven(globalMavenSettingsConfig: 'global-settings', jdk: 'ORACLEJDK21', maven: 'maven3', mavenSettingsConfig: '', traceability: true) {
                         sh "mvn deploy"
-}
             }
         }
         stage('Trivy Dependency Scan'){
