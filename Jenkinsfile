@@ -7,9 +7,9 @@ pipeline {
     }
 
     stages {
-        stage('Declarative Checkout SCM'){
+        stage('Github Checkoutt'){
             steps{
-                echo "Hello welcome to my pipeline"
+                git branch: 'main', url: 'https://github.com/yourfavengineer/Boardgame.git'
             }
 
         }
@@ -21,7 +21,7 @@ pipeline {
         }
         stage ('Code Compilation'){
             steps{
-                sh 'mnv test'
+                sh 'mvn ntest'
             }
         }
         stage('Testing '){
