@@ -3,13 +3,19 @@ pipeline {
     tools {
         maven "maven3"
         jdk "ORACLEJDK21"
-        
+
     }
 
     stages {
         stage('Declarative Checkout SCM'){
             steps{
                 echo "Hello welcome to my pipeline"
+            }
+
+        }
+        stage ('Application Build'){
+            steps{
+                sh 'mvn package'
             }
 
         }
@@ -28,15 +34,23 @@ pipeline {
                 sh 'mvn checkstyle:checkstyle '
             }
         }
+        stage('Nexus Artifactory Upload'){
+            steps {
+                withMaven(globalMavenSettingsConfig: 'global-settings', jdk: 'ORACLEJDK21', maven: 'maven3', mavenSettingsConfig: '', traceability: true) {
+                        sh "mvn deploy"
+}
+            }
+        }
         stage('Trivy Dependency Scan'){
             steps{
                 sh 'trivy fs --format table -o trivy-fs-report.html .'
             }     
         }
-        stage('Sonarqube Code Analysis')
+        stage('Sonarqube Code Analysis'){
             steps{
                 sh 'mvn sonar:sonar'
             }
+        }   
     }
 
 }
