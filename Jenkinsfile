@@ -41,16 +41,12 @@ pipeline {
                         sh "mvn deploy"
             }
         }
+        }
         stage('Trivy Dependency Scan'){
             steps{
                 sh 'trivy fs --format table -o trivy-fs-report.html .'
             }     
         }
-        stage('Sonarqube Code Analysis'){
-            steps{
-                sh 'mvn sonar:sonar'
-            }
-        }   
     }
 
 }
