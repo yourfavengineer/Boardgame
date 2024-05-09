@@ -3,8 +3,9 @@ pipeline {
     tools {
         maven "maven3"
         jdk "ORACLEJDK21"
-
+        
     }
+
     stages {
         stage('Declarative Checkout SCM'){
             steps{
