@@ -7,9 +7,9 @@ pipeline {
     }
 
     stages {
-        stage('Github Checkoutt'){
+        stage('Github Checkout'){
             steps{
-                git branch: 'main', url: 'https://github.com/yourfavengineer/Boardgame.git'
+                git branch: 'main', url:'https://github.com/yourfavengineer/Boardgame.git'
             }
 
         }
@@ -21,7 +21,7 @@ pipeline {
         }
         stage ('Code Compilation'){
             steps{
-                sh 'mvn ntest'
+                sh 'mvn test'
             }
         }
         stage('Testing '){
